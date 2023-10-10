@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">bin-there-app</string>
+    <string name="button_addPoi">Add POI</string>
+    <string name="hint_poiTitle">POI Title</string>
 </resources>
