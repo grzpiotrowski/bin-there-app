@@ -32,11 +32,7 @@ class BinThereActivity : AppCompatActivity() {
             poi.title = binding.poiTitle.text.toString()
             poi.description = binding.description.text.toString()
             if (poi.title.isNotEmpty()) {
-                app.pois.add(poi.copy())
-                i("Add Button pressed: ${poi}")
-                for (i in app.pois.indices) {
-                    i("POI[$i]:${this.app.pois[i]}")
-                }
+                app.pois.create(poi.copy())
                 setResult(RESULT_OK)
                 finish()
             }

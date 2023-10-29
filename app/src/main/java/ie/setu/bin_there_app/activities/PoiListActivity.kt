@@ -30,7 +30,7 @@ class PoiListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PoiAdapter(app.pois)
+        binding.recyclerView.adapter = PoiAdapter(app.pois.findAll())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,7 +55,7 @@ class PoiListActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.pois.size)
+                notifyItemRangeChanged(0,app.pois.findAll().size)
             }
         }
 }
