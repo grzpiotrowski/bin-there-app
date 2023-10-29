@@ -2,7 +2,10 @@ package ie.setu.bin_there_app.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
+import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityBinthereBinding
 import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.PoiModel
@@ -18,6 +21,9 @@ class BinThereActivity : AppCompatActivity() {
 
         binding = ActivityBinthereBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbarAdd.title = title
+        setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
         i("BinThere Activity started.")
@@ -40,4 +46,19 @@ class BinThereActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_poi, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
