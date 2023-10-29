@@ -18,6 +18,7 @@ class BinThereActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var edit = false
 
         binding = ActivityBinthereBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -28,18 +29,29 @@ class BinThereActivity : AppCompatActivity() {
         app = application as MainApp
         i("BinThere Activity started.")
 
+        if (intent.hasExtra("poi_edit")) {
+            edit = true
+            poi = intent.extras?.getParcelable("poi_edit")!!
+            binding.poiTitle.setText(poi.title)
+            binding.description.setText(poi.description)
+            binding.btnAdd.setText(R.string.save_poi)
+        }
+
         binding.btnAdd.setOnClickListener() {
             poi.title = binding.poiTitle.text.toString()
             poi.description = binding.description.text.toString()
-            if (poi.title.isNotEmpty()) {
-                app.pois.create(poi.copy())
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar.make(it,"Please Enter a title", Snackbar.LENGTH_LONG)
+            if (poi.title.isEmpty()) {
+                Snackbar.make(it, R.string.enter_poi_title, Snackbar.LENGTH_LONG)
                     .show()
+            } else {
+                if (edit) {
+                    app.pois.update(poi.copy())
+                } else {
+                    app.pois.create(poi.copy())
+                }
             }
+            setResult(RESULT_OK)
+            finish()
         }
     }
 

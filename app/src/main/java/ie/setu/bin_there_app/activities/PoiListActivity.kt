@@ -10,11 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.adapters.PoiAdapter
+import ie.setu.bin_there_app.adapters.PoiListener
 import ie.setu.bin_there_app.databinding.ActivityPoiListBinding
 import ie.setu.bin_there_app.main.MainApp
+import ie.setu.bin_there_app.models.PoiModel
 
 
-class PoiListActivity : AppCompatActivity() {
+class PoiListActivity : AppCompatActivity(), PoiListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityPoiListBinding
@@ -30,14 +32,13 @@ class PoiListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = PoiAdapter(app.pois.findAll())
+        binding.recyclerView.adapter = PoiAdapter(app.pois.findAll(), this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -58,4 +59,21 @@ class PoiListActivity : AppCompatActivity() {
                 notifyItemRangeChanged(0,app.pois.findAll().size)
             }
         }
+
+    override fun onPoiClick(poi: PoiModel) {
+        val launcherIntent = Intent(this, BinThereActivity::class.java)
+        launcherIntent.putExtra("poi_edit", poi)
+        getClickResult.launch(launcherIntent)
+    }
+
+    private val getClickResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                (binding.recyclerView.adapter)?.
+                notifyItemRangeChanged(0,app.pois.findAll().size)
+            }
+        }
+
 }

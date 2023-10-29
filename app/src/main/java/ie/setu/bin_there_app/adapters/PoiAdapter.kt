@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.setu.bin_there_app.databinding.CardPoiBinding
 import ie.setu.bin_there_app.models.PoiModel
 
-class PoiAdapter constructor(private var pois: List<PoiModel>) :
+interface PoiListener {
+    fun onPoiClick(poi: PoiModel)
+}
+
+class PoiAdapter constructor(private var pois: List<PoiModel>,
+                            private val listener: PoiListener) :
     RecyclerView.Adapter<PoiAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -17,7 +22,7 @@ class PoiAdapter constructor(private var pois: List<PoiModel>) :
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val poi = pois[holder.adapterPosition]
-        holder.bind(poi)
+        holder.bind(poi, listener)
     }
 
     override fun getItemCount(): Int = pois.size
@@ -25,9 +30,10 @@ class PoiAdapter constructor(private var pois: List<PoiModel>) :
     class MainHolder(private val binding : CardPoiBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(poi: PoiModel) {
+        fun bind(poi: PoiModel, listener: PoiListener) {
             binding.poiTitle.text = poi.title
             binding.description.text = poi.description
+            binding.root.setOnClickListener { listener.onPoiClick(poi) }
         }
     }
 }
