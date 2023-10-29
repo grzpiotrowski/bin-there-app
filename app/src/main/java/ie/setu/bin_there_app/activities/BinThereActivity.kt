@@ -29,8 +29,10 @@ class BinThereActivity : AppCompatActivity() {
                 app.pois.add(poi.copy())
                 i("Add Button pressed: ${poi}")
                 for (i in app.pois.indices) {
-                    i("Poi[$i]:${this.app.pois[i]}")
+                    i("POI[$i]:${this.app.pois[i]}")
                 }
+                setResult(RESULT_OK)
+                finish()
             }
             else {
                 Snackbar.make(it,"Please Enter a title", Snackbar.LENGTH_LONG)

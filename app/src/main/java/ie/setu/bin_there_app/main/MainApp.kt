@@ -13,8 +13,5 @@ class MainApp : Application () {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("BinThere started")
-        pois.add(PoiModel("One", "About one..."))
-        pois.add(PoiModel("Two", "About two..."))
-        pois.add(PoiModel("Three", "About three..."))
     }
 }
