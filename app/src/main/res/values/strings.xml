@@ -3,4 +3,5 @@
     <string name="button_addPoi">Add POI</string>
     <string name="hint_poiTitle">POI Title</string>
     <string name="hint_poiDescription">Description</string>
+    <string name="menu_addPoi">Add</string>
 </resources>
