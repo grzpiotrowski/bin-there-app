@@ -1,5 +1,7 @@
 package ie.setu.bin_there_app.activities
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -8,20 +10,27 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityMapBinding
+import ie.setu.bin_there_app.models.Location
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback,
+                        GoogleMap.OnMarkerDragListener,
+                        GoogleMap.OnMarkerClickListener {
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapBinding
+    private var location = Location()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        location = intent.extras?.getParcelable<Location>("location")!!
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -30,11 +39,40 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        map = googleMap
+        val loc = LatLng(location.lat, location.lng)
+        val options = MarkerOptions()
+            .title("POI")
+            .snippet("GPS : $loc")
+            .draggable(true)
+            .position(loc)
+        map.addMarker(options)
+        map.setOnMarkerDragListener(this)
+        map.setOnMarkerClickListener(this)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
+    }
 
-        // Add a marker in Sydney and move the camera
-        val newbridge = LatLng(53.174488, -6.805136)
-        mMap.addMarker(MarkerOptions().position(newbridge).title("Marker in Newbridge"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newbridge, 17f))
+    override fun onMarkerDrag(p0: Marker) { }
+
+    override fun onMarkerDragEnd(marker: Marker) {
+        location.lat = marker.position.latitude
+        location.lng = marker.position.longitude
+        location.zoom = map.cameraPosition.zoom
+    }
+
+    override fun onMarkerDragStart(p0: Marker) { }
+
+    override fun onBackPressed() {
+        val resultIntent = Intent()
+        resultIntent.putExtra("location", location)
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+        super.onBackPressed()
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val loc = LatLng(location.lat, location.lng)
+        marker.snippet = "GPS : $loc"
+        return false
     }
 }

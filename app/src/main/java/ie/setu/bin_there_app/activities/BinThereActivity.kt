@@ -14,6 +14,7 @@ import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityBinthereBinding
 import ie.setu.bin_there_app.helpers.showImagePicker
 import ie.setu.bin_there_app.main.MainApp
+import ie.setu.bin_there_app.models.Location
 import ie.setu.bin_there_app.models.PoiModel
 import timber.log.Timber.i
 
@@ -77,7 +78,14 @@ class BinThereActivity : AppCompatActivity() {
 
         binding.poiLocation.setOnClickListener {
             i ("Set Location pressed")
+            val location = Location(53.174488, -6.805136, 17f)
+            if (poi.location.zoom != 0f) {
+                location.lat = poi.location.lat
+                location.lng = poi.location.lng
+                location.zoom = poi.location.zoom
+            }
             val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
         }
         registerMapCallback()
@@ -120,7 +128,22 @@ class BinThereActivity : AppCompatActivity() {
     private fun registerMapCallback() {
         mapIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { i("Map Loaded") }
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                            i("Location == $location")
+                            poi.location.lat = location.lat
+                            poi.location.lng = location.lng
+                            poi.location.zoom = location.zoom
+                        }
+                    }
+                    RESULT_CANCELED -> {}
+                    else -> {}
+                }
+            }
     }
 
 }
