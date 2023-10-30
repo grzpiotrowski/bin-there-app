@@ -3,6 +3,7 @@ package ie.setu.bin_there_app.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.databinding.CardPoiBinding
 import ie.setu.bin_there_app.models.PoiModel
 
@@ -33,6 +34,7 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
         fun bind(poi: PoiModel, listener: PoiListener) {
             binding.poiTitle.text = poi.title
             binding.description.text = poi.description
+            Picasso.get().load(poi.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onPoiClick(poi) }
         }
     }
