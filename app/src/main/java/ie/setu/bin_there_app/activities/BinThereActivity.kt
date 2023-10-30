@@ -1,6 +1,7 @@
 package ie.setu.bin_there_app.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -44,6 +45,9 @@ class BinThereActivity : AppCompatActivity() {
             Picasso.get()
                 .load(poi.image)
                 .into(binding.poiImage)
+            if (poi.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_poi_image)
+            }
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -97,7 +101,8 @@ class BinThereActivity : AppCompatActivity() {
                             Picasso.get()
                                 .load(poi.image)
                                 .into(binding.poiImage)
-                        } // end of if
+                            binding.chooseImage.setText(R.string.change_poi_image)
+                        }
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }

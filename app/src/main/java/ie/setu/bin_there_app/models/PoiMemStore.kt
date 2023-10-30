@@ -26,6 +26,7 @@ class PoiMemStore : PoiStore {
         if (foundPoi != null) {
             foundPoi.title = poi.title
             foundPoi.description = poi.description
+            foundPoi.image = poi.image
             logAll()
         }
     }

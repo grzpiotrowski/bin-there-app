@@ -9,4 +9,5 @@
     <string name="save_poi"> Save POI </string>
     <string name="button_addImage">Add Image</string>
     <string name="select_poi_image">Select POI image</string>
+    <string name="change_poi_image">Change POI image</string>
 </resources>
