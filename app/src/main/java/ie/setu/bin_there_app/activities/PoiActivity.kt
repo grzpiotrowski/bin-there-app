@@ -24,10 +24,11 @@ class PoiActivity : AppCompatActivity() {
     lateinit var app : MainApp
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    var edit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var edit = false
+        edit = false
 
         binding = ActivityBinthereBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -93,11 +94,17 @@ class PoiActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_poi, menu)
+        if (edit) menu.getItem(0).isVisible = true
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_delete -> {
+                setResult(99)
+                app.pois.delete(poi)
+                finish()
+            }
             R.id.item_cancel -> {
                 finish()
             }

@@ -4,4 +4,5 @@ interface PoiStore {
     fun findAll(): List<PoiModel>
     fun create(poi: PoiModel)
     fun update(poi: PoiModel)
+    fun delete(poi: PoiModel)
 }

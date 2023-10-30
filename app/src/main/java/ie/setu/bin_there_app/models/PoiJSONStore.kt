@@ -45,6 +45,11 @@ class PoiJSONStore(private val context: Context) : PoiStore {
         // todo
     }
 
+    override fun delete(poi: PoiModel) {
+        pois.remove(poi)
+        serialize()
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(pois, listType)
         write(context, JSON_FILE, jsonString)

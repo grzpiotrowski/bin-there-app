@@ -8,7 +8,7 @@ import ie.setu.bin_there_app.databinding.CardPoiBinding
 import ie.setu.bin_there_app.models.PoiModel
 
 interface PoiListener {
-    fun onPoiClick(poi: PoiModel)
+    fun onPoiClick(poi: PoiModel, position: Int)
 }
 
 class PoiAdapter constructor(private var pois: List<PoiModel>,
@@ -35,7 +35,7 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
             binding.poiTitle.text = poi.title
             binding.description.text = poi.description
             Picasso.get().load(poi.image).resize(200,200).into(binding.imageIcon)
-            binding.root.setOnClickListener { listener.onPoiClick(poi) }
+            binding.root.setOnClickListener { listener.onPoiClick(poi, adapterPosition) }
         }
     }
 }

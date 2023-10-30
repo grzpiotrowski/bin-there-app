@@ -21,6 +21,8 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityPoiListBinding
 
+    private var position: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPoiListBinding.inflate(layoutInflater)
@@ -60,9 +62,10 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
             }
         }
 
-    override fun onPoiClick(poi: PoiModel) {
+    override fun onPoiClick(poi: PoiModel, pos: Int) {
         val launcherIntent = Intent(this, PoiActivity::class.java)
         launcherIntent.putExtra("poi_edit", poi)
+        position = pos
         getClickResult.launch(launcherIntent)
     }
 
@@ -74,6 +77,9 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
                 (binding.recyclerView.adapter)?.
                 notifyItemRangeChanged(0,app.pois.findAll().size)
             }
+            else // Deleting
+                if (it.resultCode == 99)
+                    (binding.recyclerView.adapter)?.notifyItemRemoved(position)
         }
 
 }

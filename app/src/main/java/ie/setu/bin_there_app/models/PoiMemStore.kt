@@ -34,6 +34,10 @@ class PoiMemStore : PoiStore {
         }
     }
 
+    override fun delete(poi: PoiModel) {
+        pois.remove(poi)
+    }
+
     fun logAll() {
         pois.forEach{ i("${it}") }
     }
