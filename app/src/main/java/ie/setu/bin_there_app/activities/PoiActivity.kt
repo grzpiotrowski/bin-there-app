@@ -72,7 +72,7 @@ class PoiActivity : AppCompatActivity() {
 
         binding.chooseImage.setOnClickListener {
             i("Select image pressed")
-            showImagePicker(imageIntentLauncher)
+            showImagePicker(imageIntentLauncher, this)
         }
         registerImagePickerCallback()
 
@@ -113,7 +113,12 @@ class PoiActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            poi.image = result.data!!.data!!
+
+                            val image = result.data!!.data!!
+                            contentResolver.takePersistableUriPermission(image,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            poi.image = image
+
                             Picasso.get()
                                 .load(poi.image)
                                 .into(binding.poiImage)
