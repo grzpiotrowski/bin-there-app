@@ -22,6 +22,7 @@ class BinThereActivity : AppCompatActivity() {
     var poi = PoiModel()
     lateinit var app : MainApp
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,10 +70,17 @@ class BinThereActivity : AppCompatActivity() {
         }
 
         binding.chooseImage.setOnClickListener {
-            i("Select image")
+            i("Select image pressed")
             showImagePicker(imageIntentLauncher)
         }
         registerImagePickerCallback()
+
+        binding.poiLocation.setOnClickListener {
+            i ("Set Location pressed")
+            val launcherIntent = Intent(this, MapActivity::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+        registerMapCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -107,6 +115,12 @@ class BinThereActivity : AppCompatActivity() {
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 
 }
