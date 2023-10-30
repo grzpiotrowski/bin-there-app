@@ -18,7 +18,7 @@ import ie.setu.bin_there_app.models.Location
 import ie.setu.bin_there_app.models.PoiModel
 import timber.log.Timber.i
 
-class BinThereActivity : AppCompatActivity() {
+class PoiActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBinthereBinding
     var poi = PoiModel()
     lateinit var app : MainApp

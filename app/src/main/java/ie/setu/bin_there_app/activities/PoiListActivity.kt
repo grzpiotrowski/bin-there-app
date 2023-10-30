@@ -43,7 +43,7 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                val launcherIntent = Intent(this, BinThereActivity::class.java)
+                val launcherIntent = Intent(this, PoiActivity::class.java)
                 getResult.launch(launcherIntent)
             }
         }
@@ -61,7 +61,7 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
         }
 
     override fun onPoiClick(poi: PoiModel) {
-        val launcherIntent = Intent(this, BinThereActivity::class.java)
+        val launcherIntent = Intent(this, PoiActivity::class.java)
         launcherIntent.putExtra("poi_edit", poi)
         getClickResult.launch(launcherIntent)
     }
