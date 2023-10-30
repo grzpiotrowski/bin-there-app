@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityBinthereBinding
 import ie.setu.bin_there_app.helpers.showImagePicker
@@ -40,6 +41,9 @@ class BinThereActivity : AppCompatActivity() {
             binding.poiTitle.setText(poi.title)
             binding.description.setText(poi.description)
             binding.btnAdd.setText(R.string.save_poi)
+            Picasso.get()
+                .load(poi.image)
+                .into(binding.poiImage)
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -89,6 +93,10 @@ class BinThereActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
+                            poi.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(poi.image)
+                                .into(binding.poiImage)
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
