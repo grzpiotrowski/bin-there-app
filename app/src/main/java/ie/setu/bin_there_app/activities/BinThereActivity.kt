@@ -1,12 +1,16 @@
 package ie.setu.bin_there_app.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityBinthereBinding
+import ie.setu.bin_there_app.helpers.showImagePicker
 import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.PoiModel
 import timber.log.Timber.i
@@ -15,6 +19,7 @@ class BinThereActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBinthereBinding
     var poi = PoiModel()
     lateinit var app : MainApp
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +55,16 @@ class BinThereActivity : AppCompatActivity() {
                     app.pois.create(poi.copy())
                 }
             }
+            i("Add Button pressed: $poi")
             setResult(RESULT_OK)
             finish()
         }
+
+        binding.chooseImage.setOnClickListener {
+            i("Select image")
+            showImagePicker(imageIntentLauncher)
+        }
+        registerImagePickerCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,6 +79,21 @@ class BinThereActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
 }

@@ -7,4 +7,6 @@
     <string name="menu_cancelPoi">Cancel</string>
     <string name="enter_poi_title"> Please enter a POI Title </string>
     <string name="save_poi"> Save POI </string>
+    <string name="button_addImage">Add Image</string>
+    <string name="select_poi_image">Select POI image</string>
 </resources>

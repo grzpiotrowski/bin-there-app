@@ -7,3 +7,4 @@
 - [developer.android.com - Create dynamic lists with RecyclerView](https://developer.android.com/develop/ui/views/layout/recyclerview)
 - [developer.android.com - Set up the app bar](https://developer.android.com/develop/ui/views/components/appbar/setting-up)
 - [Kotlin - Parcelize - Parcelable implementation generator](https://developer.android.com/kotlin/parcelize)
+- [developer.android.com - Storage Access Framework](https://developer.android.com/guide/topics/providers/document-provider)
