@@ -47,7 +47,15 @@ class PoiJSONStore(private val context: Context) : PoiStore {
 
 
     override fun update(poi: PoiModel) {
-        // todo
+        val poisList = findAll() as ArrayList<PoiModel>
+        var foundPoi: PoiModel? = poisList.find { p -> p.id == poi.id }
+        if (foundPoi != null) {
+            foundPoi.title = poi.title
+            foundPoi.description = poi.description
+            foundPoi.image = poi.image
+            foundPoi.location = poi.location
+        }
+        serialize()
     }
 
     override fun delete(poi: PoiModel) {

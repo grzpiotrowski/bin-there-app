@@ -32,9 +32,7 @@ class PoiMemStore : PoiStore {
             foundPoi.title = poi.title
             foundPoi.description = poi.description
             foundPoi.image = poi.image
-            foundPoi.location.lat = poi.location.lat
-            foundPoi.location.lng = poi.location.lng
-            foundPoi.location.zoom = poi.location.zoom
+            foundPoi.location = poi.location
             logAll()
         }
     }
