@@ -23,6 +23,11 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
 
     private var position: Int = 0
 
+    private val mapIntentLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPoiListBinding.inflate(layoutInflater)
@@ -47,6 +52,10 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, PoiActivity::class.java)
                 getResult.launch(launcherIntent)
+            }
+            R.id.item_map -> {
+                val launcherIntent = Intent(this, PoiMapsActivity::class.java)
+                mapIntentLauncher.launch(launcherIntent)
             }
         }
         return super.onOptionsItemSelected(item)

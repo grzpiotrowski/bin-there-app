@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Binthereapp"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.PoiMapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_poi_maps"
+            android:theme="@style/Theme.Binthereapp" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -15,6 +15,7 @@ class MainApp : Application () {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         pois = PoiJSONStore(applicationContext)
+        //pois = PoiMemStore()
         i("BinThere started")
     }
 }

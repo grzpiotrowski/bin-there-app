@@ -34,6 +34,11 @@ class PoiJSONStore(private val context: Context) : PoiStore {
         return pois
     }
 
+    override fun findById(id:Long) : PoiModel? {
+        val foundPoi: PoiModel? = pois.find { it.id == id }
+        return foundPoi
+    }
+
     override fun create(poi: PoiModel) {
         poi.id = generateRandomId()
         pois.add(poi)

@@ -15,6 +15,11 @@ class PoiMemStore : PoiStore {
         return pois
     }
 
+    override fun findById(id:Long) : PoiModel? {
+        val foundPoi: PoiModel? = pois.find { it.id == id }
+        return foundPoi
+    }
+
     override fun create(poi: PoiModel) {
         poi.id = getId()
         pois.add(poi)

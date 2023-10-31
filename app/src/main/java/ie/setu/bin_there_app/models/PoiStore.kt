@@ -5,4 +5,5 @@ interface PoiStore {
     fun create(poi: PoiModel)
     fun update(poi: PoiModel)
     fun delete(poi: PoiModel)
+    fun findById(id:Long) : PoiModel?
 }
