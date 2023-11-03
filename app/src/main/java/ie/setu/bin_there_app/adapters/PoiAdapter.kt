@@ -28,6 +28,10 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
 
     override fun getItemCount(): Int = pois.size
 
+    fun updateData() {
+        notifyDataSetChanged()
+    }
+
     class MainHolder(private val binding : CardPoiBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
