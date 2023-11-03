@@ -26,7 +26,11 @@ class PoiListActivity : AppCompatActivity(), PoiListener {
     private val mapIntentLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
-        ) { }
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                (binding.recyclerView.adapter as PoiAdapter).updateData()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
