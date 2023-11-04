@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Binthereapp"
         tools:targetApi="31">
         <activity
-            android:name=".activities.PoiMapsActivity"
+            android:name=".views.map.PoiMapView"
             android:exported="false"
             android:label="@string/title_activity_poi_maps"
             android:theme="@style/Theme.Binthereapp" />
@@ -27,11 +27,11 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".activities.MapActivity"
+            android:name=".views.editlocation.EditLocationView"
             android:exported="false"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".activities.PoiListActivity"
+            android:name=".views.poilist.PoiListView"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +43,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".activities.PoiActivity">
+        <activity
+            android:name=".views.poi.PoiView"
+            android:theme="@style/Theme.Binthereapp"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
