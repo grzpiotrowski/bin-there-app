@@ -17,6 +17,10 @@ class PoiMapPresenter(val view: PoiMapView) {
     fun doPopulateMap(map: GoogleMap) {
         map.uiSettings.setZoomControlsEnabled(true)
         map.setOnMarkerClickListener(view)
+        map.setOnMapClickListener { latLng ->
+            view.showAddPoiDialog(latLng, map)
+        }
+
         app.pois.findAll().forEach {
             val loc = LatLng(it.location.lat, it.location.lng)
             val options = MarkerOptions().title(it.title).position(loc)

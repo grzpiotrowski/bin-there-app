@@ -54,6 +54,6 @@ class PoiListPresenter(val view: PoiListView) {
     }
     private fun registerMapCallback() {
         mapIntentLauncher = view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        {  }
+        { if (it.resultCode == Activity.RESULT_OK) view.onRefresh() }
     }
 }
