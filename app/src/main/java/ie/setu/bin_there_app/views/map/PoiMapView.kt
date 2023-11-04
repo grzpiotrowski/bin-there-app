@@ -1,4 +1,4 @@
-package ie.setu.bin_there_app.activities
+package ie.setu.bin_there_app.views.map
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -19,44 +18,31 @@ import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.Location
 import ie.setu.bin_there_app.models.PoiModel
 
-class PoiMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
+class PoiMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     private lateinit var binding: ActivityPoiMapsBinding
     private lateinit var contentBinding: ContentPoiMapsBinding
-    lateinit var map: GoogleMap
     lateinit var app: MainApp
+    lateinit var presenter: PoiMapPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        app = application as MainApp
         binding = ActivityPoiMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        app = application as MainApp
+
+        presenter = PoiMapPresenter(this)
+
         contentBinding = ContentPoiMapsBinding.bind(binding.root)
         contentBinding.mapView.onCreate(savedInstanceState)
 
-        contentBinding.mapView.getMapAsync {
-            map = it
-            configureMap()
-        }
-    }
-    private fun configureMap() {
-        map.uiSettings.isZoomControlsEnabled = true
-        app.pois.findAll().forEach {
-            val loc = LatLng(it.location.lat, it.location.lng)
-            val options = MarkerOptions().title(it.title).position(loc)
-            map.addMarker(options)?.tag = it.id
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom))
-        }
-        map.setOnMarkerClickListener(this)
-
-        map.setOnMapClickListener { latLng ->
-            showAddPoiDialog(latLng)
+        contentBinding.mapView.getMapAsync{
+            presenter.doPopulateMap(it)
         }
     }
 
-    private fun showAddPoiDialog(latLng: LatLng) {
+    fun showAddPoiDialog(latLng: LatLng, map: GoogleMap) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_poi, null)
         val titleEditText: EditText = dialogView.findViewById(R.id.titleEditText)
         val descriptionEditText: EditText = dialogView.findViewById(R.id.descriptionEditText)
@@ -75,7 +61,9 @@ class PoiMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
                 val description = descriptionEditText.text.toString()
 
                 if (title.isNotEmpty() && description.isNotEmpty()) {
-                    val newPoi = PoiModel(title=title, description=description, location=Location(latLng.latitude, latLng.longitude, 17f))
+                    val newPoi = PoiModel(title=title,
+                        description=description,
+                        location=Location(latLng.latitude, latLng.longitude, 17f))
                     app.pois.create(newPoi.copy())
                     val options = MarkerOptions().title(title).position(latLng)
                     map.addMarker(options)?.tag = newPoi.id
@@ -90,13 +78,17 @@ class PoiMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
         alertDialog.show()
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        val tag = marker.tag as Long
-        val poi = app.pois.findById(tag)
-        contentBinding.currentTitle.text = poi!!.title
+    fun showPoi(poi: PoiModel) {
+        contentBinding.currentTitle.text = poi.title
         contentBinding.currentDescription.text = poi.description
-        Picasso.get().load(poi.image).into(contentBinding.currentImage)
-        return false
+        Picasso.get()
+            .load(poi.image)
+            .into(contentBinding.currentImage)
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        presenter.doMarkerSelected(marker)
+        return true
     }
 
     override fun onDestroy() {

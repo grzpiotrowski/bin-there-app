@@ -12,7 +12,7 @@ interface PoiListener {
 }
 
 class PoiAdapter constructor(private var pois: List<PoiModel>,
-                            private val listener: PoiListener) :
+                                   private val listener: PoiListener) :
     RecyclerView.Adapter<PoiAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -27,10 +27,6 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
     }
 
     override fun getItemCount(): Int = pois.size
-
-    fun updateData() {
-        notifyDataSetChanged()
-    }
 
     class MainHolder(private val binding : CardPoiBinding) :
         RecyclerView.ViewHolder(binding.root) {
