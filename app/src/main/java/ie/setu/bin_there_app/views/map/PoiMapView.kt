@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityPoiMapsBinding
 import ie.setu.bin_there_app.databinding.ContentPoiMapsBinding
+import ie.setu.bin_there_app.helpers.LocationHelper
 import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.Location
 import ie.setu.bin_there_app.models.PoiModel
@@ -29,6 +30,7 @@ class PoiMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener,
     private lateinit var contentBinding: ContentPoiMapsBinding
     lateinit var app: MainApp
     lateinit var presenter: PoiMapPresenter
+    private lateinit var locationHelper: LocationHelper
 
     private var googleMap: GoogleMap? = null
 
@@ -47,12 +49,13 @@ class PoiMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener,
         contentBinding = ContentPoiMapsBinding.bind(binding.root)
         contentBinding.mapView.onCreate(savedInstanceState)
 
+        locationHelper = LocationHelper(this)
         contentBinding.mapView.getMapAsync{
             googleMap = it
             presenter.doPopulateMap(it)
             it.setOnMyLocationButtonClickListener(this)
             it.setOnMyLocationClickListener(this)
-            enableMyLocation(it)
+            locationHelper.enableMyLocation(it)
         }
     }
 
@@ -92,30 +95,9 @@ class PoiMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener,
         alertDialog.show()
     }
 
-    private fun enableMyLocation(map: GoogleMap?) {
-        map?.let {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-                it.isMyLocationEnabled = true
-            } else {
-                // Request permissions
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE
-                )
-            }
-        }
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableMyLocation(googleMap)
-            } else {
-                permissionDenied = true
-            }
+        if (!locationHelper.onRequestPermissionsResult(requestCode, grantResults, googleMap)) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 
@@ -158,11 +140,11 @@ class PoiMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener,
     }
 
     override fun onMyLocationClick(location: android.location.Location) {
-        Toast.makeText(this, "Current location:\n Latitude: ${location.latitude}, Longitude: ${location.longitude}", Toast.LENGTH_LONG).show()
+        locationHelper.showCurrentLocationToast(location)
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Your current location", Toast.LENGTH_SHORT).show()
         return false
     }
 
