@@ -6,8 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import ie.setu.bin_there_app.views.poi.PoiView
 import ie.setu.bin_there_app.main.MainApp
-import ie.setu.bin_there_app.models.PoiModel
-import ie.setu.bin_there_app.views.editlocation.EditLocationView
+import ie.setu.bin_there_app.models.poi.PoiModel
 import ie.setu.bin_there_app.views.map.PoiMapView
 
 class PoiListPresenter(val view: PoiListView) {

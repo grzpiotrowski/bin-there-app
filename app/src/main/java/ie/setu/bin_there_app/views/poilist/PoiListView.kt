@@ -10,7 +10,7 @@ import ie.setu.bin_there_app.adapters.PoiAdapter
 import ie.setu.bin_there_app.adapters.PoiListener
 import ie.setu.bin_there_app.databinding.ActivityPoiListBinding
 import ie.setu.bin_there_app.main.MainApp
-import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.models.poi.PoiModel
 
 class PoiListView : AppCompatActivity(), PoiListener {
 

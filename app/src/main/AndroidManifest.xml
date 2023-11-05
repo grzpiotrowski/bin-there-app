@@ -18,6 +18,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Binthereapp"
         tools:targetApi="31">
+
+        <activity
+            android:name=".WelcomeView"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".views.signup.SignupView"
+            android:theme="@style/Theme.Binthereapp" />
+
+        <activity
+            android:name=".views.login.LoginView"
+            android:theme="@style/Theme.Binthereapp" />
+
         <activity
             android:name=".views.map.PoiMapView"
             android:exported="false"
@@ -35,12 +53,6 @@
         <activity
             android:name=".views.poilist.PoiListView"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -49,7 +61,6 @@
             android:name=".views.poi.PoiView"
             android:theme="@style/Theme.Binthereapp"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

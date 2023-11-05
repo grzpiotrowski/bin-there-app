@@ -9,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.ActivityPoiBinding
-import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.models.poi.PoiModel
 import timber.log.Timber.i
 
 class PoiView : AppCompatActivity() {
@@ -37,6 +37,10 @@ class PoiView : AppCompatActivity() {
         binding.poiLocation.setOnClickListener {
             presenter.cachePoi(binding.poiTitle.text.toString(), binding.description.text.toString())
             presenter.doSetLocation()
+        }
+
+        binding.gpsButton.setOnClickListener {
+            presenter.getCurrentLocation()
         }
 
         binding.btnAdd.setOnClickListener {
