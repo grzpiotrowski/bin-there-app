@@ -81,7 +81,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:entries="@array/poi_types"
             app:layout_constraintEnd_toEndOf="@+id/description"
             app:layout_constraintStart_toEndOf="@+id/labelPoiType"
             app:layout_constraintTop_toBottomOf="@+id/description" />
@@ -104,8 +103,17 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/labelLitterType"
             app:layout_constraintEnd_toEndOf="@+id/poiTitle"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerPoiType"
-            android:entries="@array/litter_types" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoiType" />
+
+        <!-- Is Cleaned Up -->
+        <CheckBox
+            android:id="@+id/checkBoxIsCleanedUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cleaned Up"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLitterType" />
 
         <!-- Bin Status -->
         <TextView
@@ -125,8 +133,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/labelBinStatus"
             app:layout_constraintEnd_toEndOf="@+id/poiTitle"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerLitterType"
-            android:entries="@array/bin_statuses"/>
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxIsCleanedUp" />
 
         <!-- Bin Type -->
         <TextView
@@ -146,8 +153,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/labelBinType"
             app:layout_constraintEnd_toEndOf="@+id/poiTitle"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerBinStatus"
-            android:entries="@array/bin_types"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerBinStatus" />
 
         <Button
             android:id="@+id/btnAdd"

@@ -57,6 +57,12 @@ class PoiJSONStore(private val context: Context) : PoiStore {
             foundPoi.description = poi.description
             foundPoi.image = poi.image
             foundPoi.location = poi.location
+            foundPoi.poiType = poi.poiType
+            foundPoi.dateReported = poi.dateReported
+            foundPoi.isCleanedUp = poi.isCleanedUp
+            foundPoi.litterType = poi.litterType
+            foundPoi.binStatus = poi.binStatus
+            foundPoi.binType = poi.binType
         }
         serialize()
     }

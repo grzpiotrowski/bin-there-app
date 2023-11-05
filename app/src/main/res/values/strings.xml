@@ -23,33 +23,4 @@
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="login_failed">"Login failed"</string>
-
-    <string-array name="poi_types">
-        <item>LITTER</item>
-        <item>BIN</item>
-    </string-array>
-
-    <string-array name="litter_types">
-        <item>GENERAL</item>
-        <item>PAPER</item>
-        <item>PLASTIC</item>
-        <item>ORGANIC</item>
-        <item>METAL</item>
-        <item>OTHER</item>
-    </string-array>
-
-    <string-array name="bin_statuses">
-        <item>NORMAL</item>
-        <item>OVERFLOWING</item>
-        <item>SUGGESTED_NEW_LOCATION</item>
-    </string-array>
-
-    <string-array name="bin_types">
-        <item>GENERAL</item>
-        <item>RECYCLABLES</item>
-        <item>ORGANIC</item>
-        <item>ELECTRONIC</item>
-        <item>GLASS</item>
-        <item>OTHER</item>
-    </string-array>
 </resources>

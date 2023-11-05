@@ -26,7 +26,7 @@ enum class PoiType {
 }
 
 enum class LitterType {
-    GENERAL, PAPER, PLASTIC, ORGANIC, METAL, OTHER
+    GENERAL, PAPER, PLASTIC, ORGANIC, METAL, OTHER, HEHEHE
 }
 
 enum class BinStatus {
