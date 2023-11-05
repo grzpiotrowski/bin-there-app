@@ -65,9 +65,15 @@ class UserJSONStore(private val context: Context) : UserStore {
     }
 
     override fun login(email: String, password: String): UserModel? {
-        return users.find { it.email == email && it.password == password }
+        val user = users.find { it.email == email && it.password == password }
+        user?.let {
+            val sessionManager = SessionManager(context)
+            sessionManager.loggedInUserId = it.id
+            sessionManager.isLoggedIn = true
+        }
+        return user
     }
-
+    
     override fun signup(email: String, password: String): UserModel? {
         val existingUser = users.find { it.email == email }
         if (existingUser != null) {

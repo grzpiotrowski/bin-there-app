@@ -39,6 +39,7 @@ class SignupView : AppCompatActivity() {
     }
 
     fun onSignupError(error: String) {
+        i(error)
         Toast.makeText(this, "Signup error", Toast.LENGTH_SHORT).show()
     }
 

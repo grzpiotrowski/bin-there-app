@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ie.setu.bin_there_app.databinding.ActivityLoginBinding
 import ie.setu.bin_there_app.models.user.UserJSONStore
-import ie.setu.bin_there_app.models.user.UserModel
 import ie.setu.bin_there_app.views.poilist.PoiListView
 import timber.log.Timber.i
 
@@ -14,8 +13,6 @@ class LoginView : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var presenter: LoginPresenter
-
-    var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +34,11 @@ class LoginView : AppCompatActivity() {
         Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, PoiListView::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun onLoginError(error: String) {
+        i(error)
         Toast.makeText(this, "Login error", Toast.LENGTH_SHORT).show()
     }
 

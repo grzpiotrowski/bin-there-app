@@ -40,11 +40,14 @@ class PoiJSONStore(private val context: Context) : PoiStore {
     }
 
     override fun create(poi: PoiModel) {
-        poi.id = generateRandomId()
-        pois.add(poi)
-        serialize()
+        val sessionManager = SessionManager(context)
+        if (sessionManager.isLoggedIn) {
+            poi.userId = sessionManager.loggedInUserId
+            poi.id = generateRandomId()
+            pois.add(poi)
+            serialize()
+        }
     }
-
 
     override fun update(poi: PoiModel) {
         val poisList = findAll() as ArrayList<PoiModel>
