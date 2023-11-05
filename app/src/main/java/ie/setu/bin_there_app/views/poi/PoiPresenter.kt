@@ -17,7 +17,11 @@ import ie.setu.bin_there_app.models.poi.PoiModel
 import ie.setu.bin_there_app.databinding.ActivityPoiBinding
 import ie.setu.bin_there_app.helpers.LocationHelper
 import ie.setu.bin_there_app.helpers.showImagePicker
+import ie.setu.bin_there_app.models.poi.BinStatus
+import ie.setu.bin_there_app.models.poi.BinType
+import ie.setu.bin_there_app.models.poi.LitterType
 import ie.setu.bin_there_app.models.poi.Location
+import ie.setu.bin_there_app.models.poi.PoiType
 import ie.setu.bin_there_app.views.editlocation.EditLocationView
 
 class PoiPresenter(private val view: PoiView) {
@@ -39,9 +43,24 @@ class PoiPresenter(private val view: PoiView) {
         registerMapCallback()
     }
 
-    fun doAddOrSave(title: String, description: String) {
+    fun doAddOrSave(
+        title: String,
+        description: String,
+        poiType: PoiType = PoiType.LITTER,
+        isCleanedUp: Boolean = false,
+        litterType: LitterType? = null,
+        binStatus: BinStatus? = null,
+        binType: BinType? = null
+    ) {
         poi.title = title
         poi.description = description
+        poi.poiType = poiType
+        poi.dateReported = System.currentTimeMillis()
+        poi.isCleanedUp = isCleanedUp
+        poi.litterType = litterType
+        poi.binStatus = binStatus
+        poi.binType = binType
+
         if (edit) {
             app.pois.update(poi)
         } else {
@@ -50,6 +69,7 @@ class PoiPresenter(private val view: PoiView) {
         view.setResult(RESULT_OK)
         view.finish()
     }
+
 
     fun doCancel() {
         view.finish()
