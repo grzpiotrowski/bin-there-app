@@ -1,4 +1,4 @@
-package ie.setu.bin_there_app.models
+package ie.setu.bin_there_app.models.poi
 
 import android.content.Context
 import android.net.Uri

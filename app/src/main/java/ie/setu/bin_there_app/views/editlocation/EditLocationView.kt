@@ -7,7 +7,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import ie.setu.bin_there_app.R
-import ie.setu.bin_there_app.models.Location
+import ie.setu.bin_there_app.models.poi.Location
 
 class EditLocationView : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,

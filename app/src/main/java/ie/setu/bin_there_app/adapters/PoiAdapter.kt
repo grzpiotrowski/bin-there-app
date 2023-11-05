@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.databinding.CardPoiBinding
-import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.models.poi.PoiModel
 
 interface PoiListener {
     fun onPoiClick(poi: PoiModel, position: Int)
 }
 
 class PoiAdapter constructor(private var pois: List<PoiModel>,
-                                   private val listener: PoiListener) :
+                             private val listener: PoiListener) :
     RecyclerView.Adapter<PoiAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {

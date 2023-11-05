@@ -13,11 +13,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import timber.log.Timber.i
 import ie.setu.bin_there_app.main.MainApp
-import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.models.poi.PoiModel
 import ie.setu.bin_there_app.databinding.ActivityPoiBinding
 import ie.setu.bin_there_app.helpers.LocationHelper
 import ie.setu.bin_there_app.helpers.showImagePicker
-import ie.setu.bin_there_app.models.Location
+import ie.setu.bin_there_app.models.poi.Location
 import ie.setu.bin_there_app.views.editlocation.EditLocationView
 
 class PoiPresenter(private val view: PoiView) {

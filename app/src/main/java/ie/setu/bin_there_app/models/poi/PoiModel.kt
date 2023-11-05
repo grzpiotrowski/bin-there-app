@@ -1,4 +1,4 @@
-package ie.setu.bin_there_app.models
+package ie.setu.bin_there_app.models.poi
 
 import android.net.Uri
 import android.os.Parcelable
@@ -9,7 +9,8 @@ data class PoiModel(var id: Long = 0,
                     var title: String = "",
                     var description: String = "",
                     var image: Uri = Uri.EMPTY,
-                    var location: Location = Location()) : Parcelable
+                    var location: Location = Location()
+) : Parcelable
 
 
 @Parcelize
