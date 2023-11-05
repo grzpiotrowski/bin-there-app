@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ie.setu.bin_there_app.databinding.ActivityWelcomeBinding
+import ie.setu.bin_there_app.views.login.LoginView
 import ie.setu.bin_there_app.views.signup.SignupView
 import timber.log.Timber.i
 
@@ -17,8 +18,8 @@ class WelcomeView : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.loginButton.setOnClickListener {
-            //val loginIntent = Intent(this, LoginActivity::class.java)
-            //startActivity(loginIntent)
+            val loginIntent = Intent(this, LoginView::class.java)
+            startActivity(loginIntent)
         }
 
         binding.signupButton.setOnClickListener {

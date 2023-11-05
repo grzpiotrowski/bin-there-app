@@ -65,7 +65,7 @@ class UserJSONStore(private val context: Context) : UserStore {
     }
 
     override fun login(email: String, password: String): UserModel? {
-        TODO("Not yet implemented")
+        return users.find { it.email == email && it.password == password }
     }
 
     override fun signup(email: String, password: String): UserModel? {

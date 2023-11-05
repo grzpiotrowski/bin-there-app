@@ -30,8 +30,11 @@
 
         <activity
             android:name=".views.signup.SignupView"
-            android:theme="@style/Theme.Binthereapp"
-        />
+            android:theme="@style/Theme.Binthereapp" />
+
+        <activity
+            android:name=".views.login.LoginView"
+            android:theme="@style/Theme.Binthereapp" />
 
         <activity
             android:name=".views.map.PoiMapView"
