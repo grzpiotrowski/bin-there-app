@@ -77,23 +77,34 @@
 
         <Button
             android:id="@+id/chooseImage"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/button_addImage"
             app:layout_constraintStart_toStartOf="@+id/btnAdd"
+            app:layout_constraintEnd_toStartOf="@+id/poiLocation"
             app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
 
         <Button
             android:id="@+id/poiLocation"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
             android:text="@string/button_location"
-            app:layout_constraintEnd_toEndOf="@+id/btnAdd"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/chooseImage"
+            app:layout_constraintEnd_toStartOf="@+id/gpsButton"
+            app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
+
+        <Button
+            android:id="@+id/gpsButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="GPS"
+            app:layout_constraintEnd_toEndOf="@+id/btnAdd"
+            app:layout_constraintStart_toEndOf="@+id/poiLocation"
             app:layout_constraintTop_toBottomOf="@+id/btnAdd" />
 
         <ImageView
@@ -108,8 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poiLocation"
-            app:layout_constraintVertical_bias="0.173"
+            app:layout_constraintTop_toBottomOf="@+id/gpsButton"
             app:srcCompat="@drawable/ic_launcher_background" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

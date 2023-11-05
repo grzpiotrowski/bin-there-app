@@ -39,6 +39,10 @@ class PoiView : AppCompatActivity() {
             presenter.doSetLocation()
         }
 
+        binding.gpsButton.setOnClickListener {
+            presenter.getCurrentLocation()
+        }
+
         binding.btnAdd.setOnClickListener {
             if (binding.poiTitle.text.toString().isEmpty()) {
                 Snackbar.make(binding.root, R.string.enter_poi_title, Snackbar.LENGTH_LONG)
