@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "bin-there-app"
 include(":app")
- 

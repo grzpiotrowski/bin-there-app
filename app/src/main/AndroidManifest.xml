@@ -1,70 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    package="ie.setu.bin_there_app">
 
     <application
-        android:name=".main.MainApp"
+        android:name="ie.setu.bin_there_app.main.MainApp"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Binthereapp"
-        tools:targetApi="31">
-
-        <activity
-            android:name=".WelcomeView"
-            android:theme="@style/Theme.Binthereapp.Splash"
+        android:theme="@style/Theme.BinThere">
+        <activity android:name="ie.setu.bin_there_app.activities.Home"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".views.signup.SignupView"
-            android:theme="@style/Theme.Binthereapp" />
-
-        <activity
-            android:name=".views.login.LoginView"
-            android:theme="@style/Theme.Binthereapp" />
-
-        <activity
-            android:name=".views.map.PoiMapView"
-            android:exported="false"
-            android:label="@string/title_activity_poi_maps"
-            android:theme="@style/Theme.Binthereapp" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
-
-        <activity
-            android:name=".views.editlocation.EditLocationView"
-            android:exported="false"
-            android:label="@string/title_activity_map" />
-        <activity
-            android:name=".views.poilist.PoiListView"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".views.poi.PoiView"
-            android:theme="@style/Theme.Binthereapp"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
     </application>
 
