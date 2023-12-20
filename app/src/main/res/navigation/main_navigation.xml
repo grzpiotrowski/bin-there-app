@@ -11,7 +11,7 @@
         android:label="@string/action_addPoi"
         tools:layout="@layout/fragment_addpoi" >
         <action
-            android:id="@+id/action_donateFragment_to_reportFragment"
+            android:id="@+id/action_addPoiFragment_to_poiListFragment"
             app:destination="@id/poiListFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
@@ -22,7 +22,7 @@
         android:label="@string/action_poilist"
         tools:layout="@layout/fragment_poilist" >
         <action
-            android:id="@+id/action_reportFragment_to_donateFragment"
+            android:id="@+id/action_poiListFragment_to_addPoiFragment"
             app:destination="@id/addPoiFragment"
             app:popUpTo="@id/main_navigation"
             app:popUpToInclusive="true"

@@ -47,7 +47,7 @@ class PoiListFragment : Fragment(), PoiClickListener {
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
-            val action = PoiListFragmentDirections.actionReportFragmentToDonateFragment()
+            val action = PoiListFragmentDirections.actionPoiListFragmentToAddPoiFragment()
             findNavController().navigate(action)
         }
         return root

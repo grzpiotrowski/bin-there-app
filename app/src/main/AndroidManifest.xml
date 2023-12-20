@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ie.setu.bin_there_app">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="ie.setu.bin_there_app.main.MainApp"
         android:allowBackup="true"
@@ -10,13 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BinThere">
-        <activity android:name="ie.setu.bin_there_app.activities.Home"
+        <activity android:name="ie.setu.bin_there_app.ui.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="ie.setu.bin_there_app.ui.home.Home">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
     </application>
 
