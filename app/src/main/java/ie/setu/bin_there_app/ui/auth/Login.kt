@@ -36,12 +36,14 @@ class Login : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         loginRegisterViewModel = ViewModelProvider(this).get(LoginRegisterViewModel::class.java)
-        loginRegisterViewModel.liveFirebaseUser.observe(this, Observer
-        { firebaseUser -> if (firebaseUser != null)
-            startActivity(Intent(this, Home::class.java)) })
+        loginRegisterViewModel.liveFirebaseUser.observe(this)
+        { firebaseUser ->
+            if (firebaseUser != null)
+                startActivity(Intent(this, Home::class.java))
+        }
 
         loginRegisterViewModel.firebaseAuthManager.errorStatus.observe(this, Observer
-            { status -> checkStatus(status) })
+        { status -> checkStatus(status) })
     }
 
     //Required to exit app from Login Screen - must investigate this further

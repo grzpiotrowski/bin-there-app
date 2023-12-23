@@ -12,11 +12,28 @@ object FirebaseDBManager : PoiStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findAll(poisList: MutableLiveData<List<PoiModel>>) {
-        TODO("Not yet implemented")
+        database.child("pois")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase POI error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<PoiModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val poi = it.getValue(PoiModel::class.java)
+                        localList.add(poi!!)
+                    }
+                    database.child("pois")
+                        .removeEventListener(this)
+
+                    poisList.value = localList
+                }
+            })
     }
 
     override fun findAll(userid: String, poisList: MutableLiveData<List<PoiModel>>) {
-
         database.child("user-pois").child(userid)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -52,18 +69,19 @@ object FirebaseDBManager : PoiStore {
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, poi: PoiModel) {
         Timber.i("Firebase DB Reference : $database")
 
-        val uid = firebaseUser.value!!.uid
+        val userid = firebaseUser.value!!.uid
         val key = database.child("pois").push().key
         if (key == null) {
             Timber.i("Firebase Error : Key Empty")
             return
         }
         poi.id = key
+        poi.userId = userid
         val poiValues = poi.toMap()
 
         val childAdd = HashMap<String, Any>()
         childAdd["/pois/$key"] = poiValues
-        childAdd["/user-pois/$uid/$key"] = poiValues
+        childAdd["/user-pois/$userid/$key"] = poiValues
 
         database.updateChildren(childAdd)
     }

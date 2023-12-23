@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.FragmentAddpoiBinding
 import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
 import ie.setu.bin_there_app.ui.poilist.PoiListViewModel
 
 class AddPoiFragment : Fragment() {
@@ -22,6 +24,7 @@ class AddPoiFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     private lateinit var addPoiViewModel: AddPoiViewModel
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +60,7 @@ class AddPoiFragment : Fragment() {
     fun setButtonListener(layout: FragmentAddpoiBinding) {
         layout.addPoiButton.setOnClickListener {
             val title = layout.poiTitle.text.toString()
-            addPoiViewModel.addPoi(PoiModel(title = title))
+            addPoiViewModel.addPoi(loggedInViewModel.liveFirebaseUser, PoiModel(title = title))
         }
     }
 

@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,13 +20,15 @@ import ie.setu.bin_there_app.adapters.PoiClickListener
 import ie.setu.bin_there_app.databinding.FragmentPoilistBinding
 import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
 
 class PoiListFragment : Fragment(), PoiClickListener {
 
     lateinit var app: MainApp
     private var _fragBinding: FragmentPoilistBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var poiListViewModel: PoiListViewModel
+    private val poiListViewModel: PoiListViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +42,10 @@ class PoiListFragment : Fragment(), PoiClickListener {
         val root = fragBinding.root
         setupMenu()
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        poiListViewModel = ViewModelProvider(this).get(PoiListViewModel::class.java)
+
         poiListViewModel.observablePoisList.observe(viewLifecycleOwner, Observer {
-                donations ->
-            donations?.let { render(donations) }
+                pois ->
+            pois?.let { render(pois) }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -82,13 +85,18 @@ class PoiListFragment : Fragment(), PoiClickListener {
     }
 
     override fun onPoiClick(poi: PoiModel) {
-        val action = PoiListFragmentDirections.actionPoiListFragmentToPoiDetailFragment(poi.id)
+        val action = PoiListFragmentDirections.actionPoiListFragmentToPoiDetailFragment(poi.id!!)
         findNavController().navigate(action)
     }
 
     override fun onResume() {
         super.onResume()
-        poiListViewModel.load()
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                poiListViewModel.liveFirebaseUser.value = firebaseUser
+                poiListViewModel.load()
+            }
+        })
     }
 
     override fun onDestroyView() {

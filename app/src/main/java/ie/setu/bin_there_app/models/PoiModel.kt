@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PoiModel(
     var id: String? = "",
-    var userId: Long = 0,
+    var userId: String? = "",
     var poiType: PoiType = PoiType.LITTER,
     var title: String = "",
     var description: String = "",
