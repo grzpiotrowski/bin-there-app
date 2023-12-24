@@ -20,7 +20,7 @@ class PoiListViewModel : ViewModel() {
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
     init {
-        loadAll()
+        load()
     }
 
     fun load() {
@@ -42,6 +42,16 @@ class PoiListViewModel : ViewModel() {
         }
         catch (e: Exception) {
             Timber.i("POIList LoadAll Error : $e.message")
+        }
+    }
+
+    fun delete(userid: String, id: String) {
+        try {
+            FirebaseDBManager.delete(userid,id)
+            Timber.i("POIList Delete Success")
+        }
+        catch (e: Exception) {
+            Timber.i("POIList Delete Error : $e.message")
         }
     }
 }

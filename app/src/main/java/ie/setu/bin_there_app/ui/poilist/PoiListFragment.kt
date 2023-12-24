@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.adapters.PoiAdapter
@@ -21,6 +22,7 @@ import ie.setu.bin_there_app.databinding.FragmentPoilistBinding
 import ie.setu.bin_there_app.main.MainApp
 import ie.setu.bin_there_app.models.PoiModel
 import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
+import ie.setu.bin_there_app.utils.SwipeToDeleteCallback
 
 class PoiListFragment : Fragment(), PoiClickListener {
 
@@ -45,8 +47,24 @@ class PoiListFragment : Fragment(), PoiClickListener {
 
         poiListViewModel.observablePoisList.observe(viewLifecycleOwner, Observer {
                 pois ->
-            pois?.let { render(pois) }
+            pois?.let {
+                render(pois as ArrayList<PoiModel>)
+                checkSwipeRefresh()
+            }
         })
+
+        setSwipeRefresh()
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = fragBinding.recyclerView.adapter as PoiAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                poiListViewModel.delete(poiListViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as PoiModel).id!!)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
@@ -73,9 +91,10 @@ class PoiListFragment : Fragment(), PoiClickListener {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun render(donationsList: List<PoiModel>) {
-        fragBinding.recyclerView.adapter = PoiAdapter(donationsList,this)
-        if (donationsList.isEmpty()) {
+    private fun render(poisList: ArrayList<PoiModel>) {
+        fragBinding.recyclerView.adapter = PoiAdapter(poisList,this,
+            poiListViewModel.readOnly.value!!)
+        if (poisList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.poisNotFound.visibility = View.VISIBLE
         } else {
@@ -87,6 +106,21 @@ class PoiListFragment : Fragment(), PoiClickListener {
     override fun onPoiClick(poi: PoiModel) {
         val action = PoiListFragmentDirections.actionPoiListFragmentToPoiDetailFragment(poi.id!!)
         findNavController().navigate(action)
+    }
+
+    private fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            if(poiListViewModel.readOnly.value!!)
+                poiListViewModel.loadAll()
+            else
+                poiListViewModel.load()
+        }
+    }
+
+    private fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 
     override fun onResume() {

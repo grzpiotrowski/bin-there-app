@@ -13,15 +13,16 @@ interface PoiClickListener {
     fun onPoiClick(poi: PoiModel)
 }
 
-class PoiAdapter constructor(private var pois: List<PoiModel>,
-                             private val listener: PoiClickListener)
+class PoiAdapter constructor(private var pois: ArrayList<PoiModel>,
+                             private val listener: PoiClickListener,
+                             private val readOnly: Boolean)
     : RecyclerView.Adapter<PoiAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardPoiBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding, readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -29,11 +30,19 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
         holder.bind(poi,listener)
     }
 
+    fun removeAt(position: Int) {
+        pois.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = pois.size
 
-    inner class MainHolder(val binding : CardPoiBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(val binding : CardPoiBinding, private val readOnly : Boolean) : RecyclerView.ViewHolder(binding.root) {
+
+        val readOnlyRow = readOnly
 
         fun bind(poi: PoiModel, listener: PoiClickListener) {
+            binding.root.tag = poi
             binding.poi = poi
             Picasso.get().load(poi.image.toUri())
                 .resize(200, 200)
