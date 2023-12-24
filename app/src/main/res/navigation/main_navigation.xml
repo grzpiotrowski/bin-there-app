@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/poiListFragment">
+
+    <fragment
+        android:id="@+id/addPoiFragment"
+        android:name="ie.setu.bin_there_app.ui.addpoi.AddPoiFragment"
+        android:label="@string/action_addPoi"
+        tools:layout="@layout/fragment_addpoi" >
+        <action
+            android:id="@+id/action_addPoiFragment_to_poiListFragment"
+            app:destination="@id/poiListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/poiListFragment"
+        android:name="ie.setu.bin_there_app.ui.poilist.PoiListFragment"
+        android:label="@string/action_poilist"
+        tools:layout="@layout/fragment_poilist" >
+        <action
+            android:id="@+id/action_poiListFragment_to_addPoiFragment"
+            app:destination="@id/addPoiFragment"
+            app:popUpTo="@id/main_navigation"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_poiListFragment_to_poiDetailFragment"
+            app:destination="@id/poiDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ie.setu.bin_there_app.ui.about.AboutFragment"
+        android:label="@string/action_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/poiDetailFragment"
+        android:name="ie.setu.bin_there_app.ui.detail.PoiDetailFragment"
+        android:label="POI Detail"
+        tools:layout="@layout/fragment_poi_detail" >
+        <action
+            android:id="@+id/action_poiDetailFragment_to_poiListFragment"
+            app:destination="@id/poiListFragment" />
+        <argument
+            android:name="poiId"
+            app:argType="string" />
+    </fragment>
+</navigation>
