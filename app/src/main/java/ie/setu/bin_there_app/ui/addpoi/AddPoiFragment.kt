@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
@@ -19,6 +20,10 @@ import androidx.navigation.ui.NavigationUI
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.FragmentAddpoiBinding
 import ie.setu.bin_there_app.models.PoiModel
+import ie.setu.bin_there_app.models.PoiType
+import ie.setu.bin_there_app.models.LitterType
+import ie.setu.bin_there_app.models.BinStatus
+import ie.setu.bin_there_app.models.BinType
 import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
 import ie.setu.bin_there_app.ui.poilist.PoiListViewModel
 import ie.setu.bin_there_app.firebase.FirebaseImageManager
@@ -64,7 +69,7 @@ class AddPoiFragment : Fragment() {
             val intent = Intent.createChooser(chooseFile, getString(R.string.select_image))
             imagePickerLauncher.launch(intent)
         }
-
+        setupSpinners(fragBinding)
         setButtonListener(fragBinding)
         return root;
     }
@@ -84,7 +89,27 @@ class AddPoiFragment : Fragment() {
     fun setButtonListener(layout: FragmentAddpoiBinding) {
         layout.addPoiButton.setOnClickListener {
             val title = layout.poiTitle.text.toString()
-            addPoiViewModel.addPoi(loggedInViewModel.liveFirebaseUser, PoiModel(title = title), poiImageUri)
+            val description = layout.description.text.toString()
+            val isCleanedUp = layout.checkBoxIsCleanedUp.isChecked
+            val poiType = PoiType.values()[layout.spinnerPoiType.selectedItemPosition]
+            var litterType: LitterType? = null
+            var binStatus: BinStatus? = null
+            var binType: BinType? = null
+
+            if (poiType == PoiType.LITTER) {
+                litterType = LitterType.values()[layout.spinnerLitterType.selectedItemPosition]
+            } else if (poiType == PoiType.BIN) {
+                binStatus = BinStatus.values()[layout.spinnerBinStatus.selectedItemPosition]
+                binType = BinType.values()[layout.spinnerBinType.selectedItemPosition]
+            }
+            addPoiViewModel.addPoi(loggedInViewModel.liveFirebaseUser, PoiModel(title = title,
+                    description = description,
+                    poiType = poiType,
+                    dateReported = System.currentTimeMillis(),
+                    isCleanedUp = isCleanedUp,
+                    litterType = litterType,
+                    binStatus = binStatus,
+                    binType = binType), poiImageUri)
         }
     }
 
@@ -106,6 +131,30 @@ class AddPoiFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+    private fun setupSpinners(binding: FragmentAddpoiBinding) {
+        // Set up the spinners with the enums
+        binding.spinnerPoiType.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            enumValuesAsList<PoiType>()
+        )
+        binding.spinnerLitterType.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            enumValuesAsList<LitterType>()
+        )
+        binding.spinnerBinStatus.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            enumValuesAsList<BinStatus>()
+        )
+        binding.spinnerBinType.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            enumValuesAsList<BinType>()
+        )
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
@@ -116,5 +165,9 @@ class AddPoiFragment : Fragment() {
         val poiListViewModel = ViewModelProvider(this).get(PoiListViewModel::class.java)
         poiListViewModel.observablePoisList.observe(viewLifecycleOwner, Observer {
         })
+    }
+
+    inline fun <reified T : Enum<T>> enumValuesAsList(): List<String> {
+        return enumValues<T>().map { it.name }
     }
 }

@@ -12,6 +12,8 @@
     <string name="enter_name">Enter Name</string>
     <string name="action_addPoi">Add POI</string>
     <string name="action_poilist">POI List</string>
+    <string name="hint_poiTitle">POI Title</string>
+    <string name="hint_poiDescription">Description</string>
 
     <string name="action_share">Share</string>
     <string name="action_send">Send</string>

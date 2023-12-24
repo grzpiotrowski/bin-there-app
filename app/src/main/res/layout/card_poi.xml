@@ -45,14 +45,14 @@
                 tools:text="€1000" />
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/poiTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/poitype"
-                android:text="@{poi.description}"
+                android:text="@{poi.title}"
                 android:textSize="24sp"
                 tools:text="@string/bin" />
 
