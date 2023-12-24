@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ie.setu.bin_there_app.databinding.FragmentPoiDetailBinding
 import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
+import ie.setu.bin_there_app.ui.poilist.PoiListViewModel
+import timber.log.Timber
 
 
 class PoiDetailFragment : Fragment() {
@@ -20,6 +23,7 @@ class PoiDetailFragment : Fragment() {
     private var _fragBinding: FragmentPoiDetailBinding? = null
     private val fragBinding get() = _fragBinding!!
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val poiListViewModel : PoiListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +35,14 @@ class PoiDetailFragment : Fragment() {
 
         detailViewModel = ViewModelProvider(this).get(PoiDetailViewModel::class.java)
         detailViewModel.observablePoi.observe(viewLifecycleOwner, Observer { render() })
+
+        fragBinding.deletePoiButton.setOnClickListener {
+            Timber.i("Deleting POI: ${detailViewModel.observablePoi.value?.id!!}")
+            poiListViewModel.delete(loggedInViewModel.liveFirebaseUser.value?.email!!,
+                detailViewModel.observablePoi.value?.id!!)
+            findNavController().navigateUp()
+        }
+
         return root
     }
 
