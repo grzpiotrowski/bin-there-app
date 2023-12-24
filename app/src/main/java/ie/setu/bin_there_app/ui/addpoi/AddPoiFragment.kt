@@ -1,8 +1,12 @@
 package ie.setu.bin_there_app.ui.addpoi
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -17,6 +21,7 @@ import ie.setu.bin_there_app.databinding.FragmentAddpoiBinding
 import ie.setu.bin_there_app.models.PoiModel
 import ie.setu.bin_there_app.ui.auth.LoggedInViewModel
 import ie.setu.bin_there_app.ui.poilist.PoiListViewModel
+import ie.setu.bin_there_app.firebase.FirebaseImageManager
 
 class AddPoiFragment : Fragment() {
 
@@ -25,6 +30,16 @@ class AddPoiFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     private lateinit var addPoiViewModel: AddPoiViewModel
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private var poiImageUri: Uri? = null
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                poiImageUri = uri
+                addPoiViewModel.onImageSelected(uri)
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +55,15 @@ class AddPoiFragment : Fragment() {
         addPoiViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
+
+        fragBinding.uploadPhotoButton.setOnClickListener {
+            val chooseFile = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                type = "image/*"
+                addCategory(Intent.CATEGORY_OPENABLE)
+            }
+            val intent = Intent.createChooser(chooseFile, getString(R.string.select_image))
+            imagePickerLauncher.launch(intent)
+        }
 
         setButtonListener(fragBinding)
         return root;
@@ -60,7 +84,7 @@ class AddPoiFragment : Fragment() {
     fun setButtonListener(layout: FragmentAddpoiBinding) {
         layout.addPoiButton.setOnClickListener {
             val title = layout.poiTitle.text.toString()
-            addPoiViewModel.addPoi(loggedInViewModel.liveFirebaseUser, PoiModel(title = title))
+            addPoiViewModel.addPoi(loggedInViewModel.liveFirebaseUser, PoiModel(title = title), poiImageUri)
         }
     }
 

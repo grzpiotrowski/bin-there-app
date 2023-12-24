@@ -2,7 +2,9 @@ package ie.setu.bin_there_app.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.setu.bin_there_app.R
 import ie.setu.bin_there_app.databinding.CardPoiBinding
 import ie.setu.bin_there_app.models.PoiModel
@@ -33,7 +35,10 @@ class PoiAdapter constructor(private var pois: List<PoiModel>,
 
         fun bind(poi: PoiModel, listener: PoiClickListener) {
             binding.poi = poi
-            binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            Picasso.get().load(poi.image.toUri())
+                .resize(200, 200)
+                .centerCrop()
+                .into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onPoiClick(poi) }
             binding.executePendingBindings()
         }

@@ -105,4 +105,25 @@ object FirebaseDBManager : PoiStore {
 
         database.updateChildren(childUpdate)
     }
+
+    fun updateImageRef(userid: String,imageUri: String) {
+
+        val userPois = database.child("user-pois").child(userid)
+        val allPois = database.child("pois")
+
+        userPois.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        //Update POI imageUri
+                        it.ref.child("poiimage").setValue(imageUri)
+                        //Update all donations that match 'it'
+                        val poi = it.getValue(PoiModel::class.java)
+                        allPois.child(poi!!.id!!)
+                            .child("poiimage").setValue(imageUri)
+                    }
+                }
+            })
+    }
 }
