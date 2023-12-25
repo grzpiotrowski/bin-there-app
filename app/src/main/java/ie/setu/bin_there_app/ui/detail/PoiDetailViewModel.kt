@@ -23,4 +23,15 @@ class PoiDetailViewModel : ViewModel() {
             Timber.i("Detail getPoi() Error : $e.message")
         }
     }
+
+    fun cleanupPoi(userid: String, id: String, poi: PoiModel) {
+        try {
+            poi.isCleanedUp = true
+            FirebaseDBManager.update(userid, id, poi)
+            Timber.i("CleanupPOI Success : $poi")
+        }
+        catch (e: Exception) {
+            Timber.i("CleanupPOI Error : $e.message")
+        }
+    }
 }

@@ -43,6 +43,11 @@ class PoiDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        fragBinding.cleanupPoiButton.setOnClickListener {
+            detailViewModel.cleanupPoi(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                args.poiId, fragBinding.poivm?.observablePoi!!.value!!)
+        }
+
         return root
     }
 

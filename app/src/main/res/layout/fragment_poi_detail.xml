@@ -95,6 +95,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:checked="@{poivm.observablePoi.isCleanedUp}"
             android:text="Cleaned Up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinnerLitterType" />
@@ -144,10 +146,10 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerBinStatus" />
 
         <Button
-            android:id="@+id/editPoiButton"
+            android:id="@+id/cleanupPoiButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit"
+            android:text="Clean Up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deletePoiButton"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -160,7 +162,7 @@
             android:text="Delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editPoiButton" />
+            app:layout_constraintStart_toEndOf="@+id/cleanupPoiButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

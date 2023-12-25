@@ -116,9 +116,7 @@ object FirebaseDBManager : PoiStore {
                 override fun onCancelled(error: DatabaseError) {}
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
-                        //Update POI imageUri
                         it.ref.child("poiimage").setValue(imageUri)
-                        //Update all donations that match 'it'
                         val poi = it.getValue(PoiModel::class.java)
                         allPois.child(poi!!.id!!)
                             .child("poiimage").setValue(imageUri)
