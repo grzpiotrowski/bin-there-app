@@ -78,6 +78,9 @@ Then opening pull requests and merging into the main branch. Small fixes or impr
 sometimes worked on directly on the main branch.
 I used tags and releases to mark important versions of the application.
 
+## Class Diagram
+<img src="docs/images/diagram.png">
+
 ## Personal Statement
 For the second assignment, I chose to work on the same project/repository and expand
 on the application built so far. As the initial approach I was trying to refactor the app from MVP
